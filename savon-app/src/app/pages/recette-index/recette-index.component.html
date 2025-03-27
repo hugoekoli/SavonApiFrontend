@@ -1,0 +1,30 @@
+<div class="container mt-4">
+    <h2>Liste des Recettes</h2>
+    
+    <!-- Bouton de création -->
+    <a routerLink="/recettes/create" class="btn btn-primary mb-3">
+      Créer une nouvelle recette
+    </a>
+  
+    <!-- Liste des recettes -->
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let recette of recettes">
+        <div class="card h-100">
+          <!-- Radar Chart -->
+          <div class="card-img-top p-3">
+            <app-radar-chart [resultats]="recette.resultats"></app-radar-chart>
+          </div>
+  
+          <div class="card-body">
+            <h5 class="card-title">{{ recette.nom }}</h5>
+            <p class="card-text">{{ recette.description }}</p>
+            
+            <!-- Bouton Supprimer -->
+            <button (click)="deleteRecette(recette.id)" class="btn btn-danger">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
