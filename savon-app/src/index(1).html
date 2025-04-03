@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SavApp - Gestion de Recettes Culinaires</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 120px;
+    }
+    
+    .app-header {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background-color: white;
+    }
+    
+    .top-bar-fluid {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.5rem 0;
+    }
+    
+    .nav-bar-fluid {
+      background-color: var(--light-color);
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .logo {
+      height: 50px;
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+    
+    .dropdown-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 4rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 20px 20px;
+    }
+    
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      height: 100%;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .ingredient-card {
+      border-left: 5px solid var(--secondary-color);
+      transition: all 0.3s ease;
+    }
+    
+    .ingredient-card:hover {
+      border-left: 5px solid var(--accent-color);
+    }
+    
+    .partner-logo {
+      height: 60px;
+      margin: 15px;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
+    }
+    
+    .partner-logo:hover {
+      filter: grayscale(0%);
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+      border-color: #2980b9;
+    }
+    
+    .btn-danger {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+    
+    .footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 2rem 0;
+    }
+    
+    .footer-link {
+      color: var(--light-color);
+      text-decoration: none;
+    }
+    
+    .footer-link:hover {
+      color: var(--secondary-color);
+    }
+    
+    .footer-logo {
+      height: 60px;
+    }
+    
+    .recipe-card {
+      transition: all 0.3s ease;
+    }
+    
+    .recipe-card:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .radar-wrapper {
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header fixed-top">
+    <div class="top-bar-fluid container-fluid p-0">
+      <div class="top-bar-content container-xl p-0">
+        <a class="navbar-brand me-auto" routerLink="home" routerLinkActive="active">
+          <img src="./assets/logo.png" alt="SavApp Logo" class="logo img-fluid">
+        </a>
+        
+        <div class="user-menu align-items-center me-3">
+          <span class="user-name text-dark bg-light rounded-1 ps-2">
+            John DOE
+          </span>
+          
+          <button class="dropdown-btn rounded-pill dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          </button>
+          
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" routerLink="/login">Se connecter</a></li>
+            <li><a class="dropdown-item" routerLink="/account-manager">Mon compte</a></li>
+            <li><a class="dropdown-item" routerLink="/subscribe-page">Créer un compte</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <nav class="nav-bar-fluid container-fluid navbar navbar-expand-sm p-0">
+      <div class="container-xl nav-bar-content p-0">
+        <button class="navbar-toggler ms-3 mt-2 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <ul class="navbar-nav nav-underline">
+          <li class="nav-item border-0">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" title="Retour à la page d'accueil">
+              <i class="bi bi-house-fill"></i> Accueil
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/calculator" routerLinkActive="active" title="Calculer une recette de savon">
+              Calculateur
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/user/recipes" routerLinkActive="active" title="Gérer mes recettes">
+              Mes recettes
+            </a>
+          </li>
+          <li class="nav-item admin-only">
+            <a class="nav-link" routerLink="/admin/users" routerLinkActive="active" title="Gérer les utilisateurs">
+              Utilisateurs
+            </a>
+          </li>
+          <li class="nav-item admin-only">
+            <a class="nav-link" routerLink="/admin/ingredients" routerLinkActive="active" title="Gérer les ingrédients">
+              Ingrédients
+            </a>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content container min-vh-100">
+    <router-outlet></router-outlet>
+    
+    <!-- Home Page Content -->
+    <div class="home-container" *ngIf="currentRoute === 'home'">
+      <section class="hero-section text-center">
+        <div class="container">
+          <h1 class="display-4 fw-bold mb-4">SavApp</h1>
+          <p class="lead">L'outil ultime pour créer et gérer vos recettes de savon</p>
+          <div class="mt-4">
+            <a routerLink="calculator" class="btn btn-light btn-lg me-2">
+              <i class="fas fa-calculator me-2"></i>Nouvelle recette
+            </a>
+            <a routerLink="user/recipes" class="btn btn-outline-light btn-lg">
+              <i class="fas fa-book me-2"></i>Mes recettes
+            </a>
+          </div>
+        </div>
+      </section>
+      
+      <section class="mb-5">
+        <h2 class="text-center mb-4">Fonctionnalités principales</h2>
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="feature-card card">
+              <div class="card-body text-center">
+                <i class="fas fa-calculator fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                <h4>Calculateur intelligent</h4>
+                <p>Créez des recettes de savon parfaitement dosées avec notre calculateur avancé.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="feature-card card">
+              <div class="card-body text-center">
+                <i class="fas fa-flask fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                <h4>Base d'ingrédients</h4>
+                <p>Accédez à une bibliothèque complète d'ingrédients avec leurs propriétés.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="feature-card card">
+              <div class="card-body text-center">
+                <i class="fas fa-chart-pie fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                <h4>Analyse des recettes</h4>
+                <p>Visualisez les caractéristiques de vos savons grâce à nos graphiques analytiques.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="mb-5 text-center">
+        <h2 class="mb-4">Un projet collaboratif</h2>
+        <p class="lead mb-4">
+          Cette application est le fruit d'un partenariat entre deux acteurs engagés dans l'innovation et la formation.
+        </p>
+        <div class="d-flex justify-content-center align-items-center flex-wrap">
+          <a href="https://www.adepro-consultant.fr/" target="_blank" class="d-inline-block">
+            <img src="./assets/adepro_logo_trans.png" alt="Logo Adepro" class="partner-logo">
+          </a>
+          <a href="https://www.vinci-melun.org/" target="_blank" class="d-inline-block">
+            <img src="./assets/logoLdV_baseline-fondblanc.png" alt="Logo Lycée Vinci" class="partner-logo">
+          </a>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Ingredients Management -->
+    <div class="container mt-4" *ngIf="currentRoute === 'admin/ingredients'">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestion des ingrédients</h2>
+        <button class="btn btn-primary" (click)="openModalFormIngredient(null, false)">
+          <i class="fas fa-plus me-2"></i>Ajouter un ingrédient
+        </button>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Rechercher un ingrédient..." [(ngModel)]="searchTerm">
+            <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+          <button class="btn btn-success me-2" (click)="exportToCSV()">
+            <i class="fas fa-file-export me-2"></i>Exporter
+          </button>
+          <label class="btn btn-primary">
+            <i class="fas fa-file-import me-2"></i>Importer
+            <input type="file" (change)="importFromCSV($event)" hidden>
+          </label>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Ind. sapo.</th>
+              <th>Ind. INS</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ingredient of filteredIngredients">
+              <td>{{ ingredient.nom }}</td>
+              <td>
+                <span class="badge" [ngClass]="ingredient.estCorpsGras ? 'bg-primary' : 'bg-secondary'">
+                  {{ ingredient.estCorpsGras ? 'Corps gras' : 'Autre' }}
+                </span>
+              </td>
+              <td>{{ ingredient.sapo }}</td>
+              <td>{{ ingredient.ins }}</td>
+              <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="openModalFormIngredient(ingredient, true)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="openDeleteOneModal(ingredient)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Recipe Calculator -->
+    <div class="container mt-4" *ngIf="currentRoute === 'calculator'">
+      <h2 class="mb-4">Calculateur de recette</h2>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Détails de la recette</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="titre" class="form-label">Titre</label>
+                <input type="text" id="titre" class="form-control" [(ngModel)]="recetteDto.titre">
+              </div>
+              
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" class="form-control" rows="3" [(ngModel)]="recetteDto.description"></textarea>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="surgraissage" class="form-label">Surgraissage (%)</label>
+                  <input type="number" id="surgraissage" class="form-control" [(ngModel)]="recetteDto.surgraissage">
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="concentration" class="form-label">Concentration alcalin (%)</label>
+                  <input type="number" id="concentration" class="form-control" [(ngModel)]="recetteDto.concentrationAlcalin">
+                </div>
+              </div>
+              
+              <div class="form-check mb-3">
+                <input type="checkbox" id="avecSoude" class="form-check-input" [(ngModel)]="recetteDto.avecSoude">
+                <label for="avecSoude" class="form-check-label">Utiliser de la soude (NaOH)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Ingrédients</h5>
+              <button type="button" class="btn btn-sm btn-success" (click)="openIngredientModal()">
+                <i class="fas fa-plus me-1"></i>Ajouter
+              </button>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th>Ingrédient</th>
+                    <th>Quantité (g)</th>
+                    <th>%</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let ligne of selectedIngredients; let i = index">
+                    <td>{{ ligne.ingredient?.nom }}</td>
+                    <td>
+                      <input type="number" class="form-control form-control-sm" [(ngModel)]="ligne.quantite" (ngModelChange)="recalculerPourcentages()">
+                    </td>
+                    <td>{{ ligne.pourcentage | number:'1.1-1' }}</td>
+                    <td class="text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger" (click)="supprimerIngredient(i)">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Total: {{ totalMasse | number:'1.1-1' }} g</span>
+                <span class="badge bg-primary">100%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button class="btn btn-primary btn-lg" (click)="onSubmit()">
+          <i class="fas fa-save me-2"></i>Enregistrer la recette
+        </button>
+      </div>
+    </div>
+    
+    <!-- Recipe List -->
+    <div class="container mt-4" *ngIf="currentRoute === 'user/recipes'">
+      <h2 class="mb-4">Mes recettes</h2>
+      
+      <div *ngIf="isLoading" class="alert alert-info text-center">
+        <i class="fas fa-spinner fa-spin me-2"></i>Chargement des recettes...
+      </div>
+      
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle me-2"></i>{{ errorMessage }}
+      </div>
+      
+      <div *ngIf="!isLoading && !errorMessage && recettes.length === 0" class="alert alert-warning text-center">
+        <i class="fas fa-info-circle me-2"></i>Aucune recette enregistrée.
+      </div>
+      
+      <div class="row">
+        <div *ngFor="let recette of recettes" class="col-md-6 col-lg-4 mb-4">
+          <div class="recipe-card card h-100">
+            <div class="card-header bg-primary text-white">
+              <h5 class="card-title mb-0">{{ recette.titre }}</h5>
+            </div>
+            <div class="card-body">
+              <div class="radar-wrapper">
+                <app-radar-chart
+                  [title]="recette.titre"
+                  [scores]="[
+                    recette.resultats[2].score,
+                    recette.resultats[3].score,
+                    recette.resultats[4].score,
+                    recette.resultats[5].score,
+                    recette.resultats[6].score,
+                    recette.resultats[7].score,
+                    recette.resultats[8].score
+                  ]">
+                </app-radar-chart>
+              </div>
+              
+              <p class="card-text"><small class="text-muted">{{ recette.description }}</small></p>
+              
+              <div class="mb-2">
+                <span class="badge bg-secondary me-2">
+                  Surgraissage: {{ recette.surgraissage }}%
+                </span>
+                <span class="badge bg-secondary">
+                  {{ recette.avecSoude ? 'Soude' : 'Potasse' }}
+                </span>
+              </div>
+              
+              <div class="accordion" id="accordionRecipe{{recette.id}}">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseOne' + recette.id">
+                      Composition
+                    </button>
+                  </h2>
+                  <div [id]="'collapseOne' + recette.id" class="accordion-collapse collapse" data-bs-parent="#accordionRecipe{{recette.id}}">
+                    <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Agent alcalin
+                          <span class="badge bg-primary rounded-pill">{{ recette.qteAlcalin | number:'1.0-1' }}g</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Eau
+                          <span class="badge bg-primary rounded-pill">{{ recette.apportEnEau | number:'1.0-1' }}g</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong>Corps gras:</strong>
+                          <ul>
+                            <li *ngFor="let ligne of recette.ligneIngredients | filter:'estCorpsGras':true">
+                              {{ ligne.ingredient?.nom }}: {{ ligne.quantite | number:'1.0-1' }}g
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="list-group-item">
+                          <strong>Autres ingrédients:</strong>
+                          <ul>
+                            <li *ngFor="let ligne of recette.ligneIngredients | filter:'estCorpsGras':false">
+                              {{ ligne.ingredient?.nom }}: {{ ligne.quantite | number:'1.0-1' }}g
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent">
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-sm btn-outline-primary">
+                  <i class="fas fa-edit me-1"></i>Modifier
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-trash me-1"></i>Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-4 mb-md-0">
+          <img src="./assets/adepro_logo_trans_inv.png" alt="ADEPRO Logo" class="footer-logo mb-3">
+          <p>Solution innovante pour la gestion des recettes cosmétiques.</p>
+        </div>
+        
+        <div class="col-md-3 mb-4 mb-md-0">
+          <h5>Contact</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="fas fa-globe me-2"></i>
+              <a href="https://www.adepro-consultant.fr/" class="footer-link">www.adepro-consultant.fr</a>
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-envelope me-2"></i>
+              <a href="mailto:contact@adepro-consultant.fr" class="footer-link">contact@adepro-consultant.fr</a>
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-phone me-2"></i> +33 (0)6 78 50 33 77
+            </li>
+          </ul>
+        </div>
+        
+        <div class="col-md-3 mb-4 mb-md-0">
+          <h5>Adresse</h5>
+          <address>
+            <i class="fas fa-map-marker-alt me-2"></i>
+            Central Canebière<br>
+            10 Rue de la République<br>
+            13001 Marseille<br>
+            France
+          </address>
+        </div>
+        
+        <div class="col-md-3">
+          <h5>Liens utiles</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a routerLink="/about" class="footer-link">À propos</a></li>
+            <li class="mb-2"><a routerLink="/notices" class="footer-link">Mentions légales</a></li>
+            <li class="mb-2"><a href="https://www.vinci-melun.org/" target="_blank" class="footer-link">Lycée Vinci</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <hr class="my-4">
+      
+      <div class="text-center">
+        <p class="mb-0">© 2023 SavApp - Tous droits réservés</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div class="modal fade" id="ingredientModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter un ingrédient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <select class="form-select" [(ngModel)]="selectedIngredient">
+            <option *ngFor="let ing of ingredients" [ngValue]="ing">
+              {{ ing.nom }}
+            </option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary" (click)="onAdd()">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="formModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEditing ? 'Modifier' : 'Ajouter' }} un ingrédient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveIngredient()" #ingredientForm="ngForm" class="row g-3">
+            <div class="col-md-6">
+              <label for="nom" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="nom" [(ngModel)]="ingredient.nom" name="nom" required>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">Type</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="estCorpsGras" [(ngModel)]="ingredient.estCorpsGras" name="estCorpsGras">
+                <label class="form-check-label" for="estCorpsGras">Corps gras</label>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <label for="sapo" class="form-label">Indice de saponification</label>
+              <input type="number" step="0.01" class="form-control" id="sapo" [(ngModel)]="ingredient.sapo" name="sapo">
+            </div>
+            
+            <div class="col-md-4">
+              <label for="ins" class="form-label">Indice INS</label>
+              <input type="number" step="0.01" class="form-control" id="ins" [(ngModel)]="ingredient.ins" name="ins">
+            </div>
+            
+            <div class="col-md-4">
+              <label for="iode" class="form-label">Indice d'iode</label>
+              <input type="number" step="0.01" class="form-control" id="iode" [(ngModel)]="ingredient.iode" name="iode">
+            </div>
+            
+            <div class="col-md-3">
+              <label for="lavant" class="form-label">Pouvoir lavant</label>
+              <input type="number" step="0.1" class="form-control" id="lavant" [(ngModel)]="ingredient.lavant" name="lavant">
+            </div>
+            
+            <div class="col-md-3">
+              <label for="douceur" class="form-label">Douceur</label>
+              <input type="number" step="0.1" class="form-control" id="douceur" [(ngModel)]="ingredient.douceur" name="douceur">
+            </div>
+            
+            <div class="col-md-3">
+              <label for="durete" class="form-label">Dureté</label>
+              <input type="number" step="0.1" class="form-control" id="durete" [(ngModel)]="ingredient.durete" name="durete">
+            </div>
+            
+            <div class="col-md-3">
+              <label for="solubilite" class="form-label">Solubilité</label>
+              <input type="number" step="0.1" class="form-control" id="solubilite" [(ngModel)]="ingredient.solubilite" name="solubilite">
+            </div>
+            
+            <div class="col-12 text-end">
+              <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary">
+                {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ modalMessage }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger" (click)="confirmAction()">Confirmer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
